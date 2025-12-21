@@ -1,6 +1,3 @@
-Here’s a **professional, GitHub-ready version of your README** with badges, a Table of Contents (TOC), and clean formatting:
-
-```markdown
 # Fraud Detection Data Pipeline
 
 ![Python](https://img.shields.io/badge/python-3.8%2B-blue)
@@ -39,7 +36,6 @@ A modular data processing and feature engineering pipeline for building machine 
 ## 📂 Project Structure
 
 ```
-
 ├── data/
 │   ├── raw/                # Original datasets (Fraud_Data.csv, IpAddress_to_Country.csv)
 │   └── processed/          # Outputs from the scripts
@@ -50,8 +46,7 @@ A modular data processing and feature engineering pipeline for building machine 
 │   ├── Feature_engineering.py  # Creation of predictive features
 │   └── data_processing.py      # Scaling, encoding, and resampling
 └── README.md
-
-````
+```
 
 ---
 
@@ -99,7 +94,7 @@ A modular data processing and feature engineering pipeline for building machine 
 ```bash
 python src/data_cleaning.py
 python src/ip_to_country.py
-````
+```
 
 3. Generate features and prepare data for ML:
 
@@ -120,17 +115,3 @@ python src/data_processing.py
 ## ⚖️ License
 
 This project is licensed under the **MIT License**. See [LICENSE](LICENSE) for details.
-
-```
-
----
-
-This version includes:
-
-- **Badges** for Python version, sklearn, imbalanced-learn, and license  
-- **Table of Contents** with anchor links  
-- Clear **project structure**, **script descriptions**, and **usage instructions**  
-- Professional Markdown formatting for GitHub  
-
----
-
