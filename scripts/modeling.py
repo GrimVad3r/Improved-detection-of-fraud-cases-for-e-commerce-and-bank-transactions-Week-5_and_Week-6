@@ -239,7 +239,7 @@ def train_random_forest(X_train, y_train, perform_tuning=False):
     
     return model
 
-def train_xgboost(X_train, y_train, perform_tuning=False):
+def train_xgboost(X_train, y_train, perform_tuning=False,use_smote_data=False):
     """
     Train XGBoost Classifier
     
@@ -256,8 +256,12 @@ def train_xgboost(X_train, y_train, perform_tuning=False):
     print("="*60)
     
     # Calculate scale_pos_weight for imbalanced data
-    scale_pos_weight = (y_train == 0).sum() / (y_train == 1).sum()
-    print(f"Scale pos weight: {scale_pos_weight:.2f}")
+    if use_smote_data:
+        scale_pos_weight = 1.0 
+        print("SMOTE detected: Setting scale_pos_weight to 1.0 to avoid over-bias.")
+    else:
+        scale_pos_weight = (y_train == 0).sum() / (y_train == 1).sum()
+        print(f"Standard Imbalance: Scale pos weight: {scale_pos_weight:.2f}")
     
     if perform_tuning:
         print("Performing hyperparameter tuning...")
@@ -391,7 +395,7 @@ def compare_models(metrics_dict):
     print("\n", comparison_df)
     
     # Save comparison
-    comparison_df.to_csv('models/model_comparison.csv')
+    comparison_df.to_csv('../models/model_comparison.csv')
     
     # Visualize comparison
     metrics_to_plot = ['precision', 'recall', 'f1_score', 'roc_auc', 'pr_auc']
@@ -407,7 +411,7 @@ def compare_models(metrics_dict):
     ax.set_ylim(0, 1)
     
     plt.tight_layout()
-    plt.savefig('notebooks/figures/model_comparison.png', dpi=300, bbox_inches='tight')
+    plt.savefig('figures/model_comparison.png', dpi=300, bbox_inches='tight')
     plt.show()
     
     return comparison_df
