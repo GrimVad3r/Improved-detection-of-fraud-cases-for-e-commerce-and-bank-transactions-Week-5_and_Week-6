@@ -39,10 +39,109 @@ The final stage transforms raw data into predictive features for model training.
   - **Storage**: Saves the final training/testing sets as `.npy` files for efficient model loading.
 
 ---
+### 3. `modeling.ipynb` (Model Training & Evaluation)
+
+## Overview
+
+The notebook follows a structured, phase-based approach to:
+
+- Build baseline and ensemble models
+- Evaluate model performance using standard classification metrics
+- Address class imbalance using **SMOTE**
+- Compare model performance before and after imbalance handling
+
+The work is modularized using reusable data processing and modeling utilities.
+
+---
+
+## Notebook Structure
+
+### Task 2 – Model Building and Training
+
+The notebook is divided into **two main phases**:
+
+---
+
+### Phase 1: Without Class Imbalance Handling
+
+This phase establishes baseline performance using the original dataset distribution.
+
+#### 1. Data Preparation
+
+- Feature and target separation
+- Train–test split
+- Basic preprocessing via a reusable data processing module
+
+#### 2. Build Baseline Model
+
+- Logistic Regression model
+- Establishes a performance benchmark
+
+#### 3. Build Ensemble Model
+
+- Ensemble-based classifier to improve predictive performance
+- Comparison against the baseline model
+
+#### 4. Cross-Validation
+
+- Cross-validation applied to assess model stability
+- Reduces dependency on a single train–test split
+
+#### 5. Model Comparison and Selection
+
+- Performance comparison using metrics such as:
+  - Confusion Matrix
+  - ROC Curve
+  - AUC score
+
+---
+
+### Phase 2: With Class Imbalance Handling
+
+This phase focuses on improving minority-class detection.
+
+#### Apply SMOTE to Training Data
+
+- **Synthetic Minority Over-sampling Technique (SMOTE)** applied only to training data
+- Prevents data leakage into the test set
+
+#### Model Retraining and Evaluation
+
+- Models retrained on balanced data
+- Performance compared against Phase 1 results
+- Emphasis on recall and ROC performance for the minority class
+
+---
+
+## Key Features
+
+- Modular code structure (`data_processing.py`, `modeling.py`)
+- Clear separation between preprocessing, modeling, and evaluation
+- Explicit handling of class imbalance
+- Reproducible experiments with fixed random states
+- Visualization of performance metrics
+
+---
+
+## Technologies Used
+
+- **Python 3.8+**
+- **pandas**, **NumPy**
+- **scikit-learn**
+- **imbalanced-learn (SMOTE)**
+- **matplotlib**
+- **joblib**
+
+---
+
+## Project Files
+
+
+
 
 ## 🚀 Key Features
 
-- **Modular Design**: Uses external Python scripts (`data_loading`, `data_cleaning`) for reproducible workflows.
+- **Modular Design**: Uses external Python scripts (`data_loading`, `data_cleaning`,`modeling.py`) for reproducible workflows.
 - **Enriched Data**: Maps numeric IP addresses to countries to add geographic context to the fraud profiles.
 - **Balanced Datasets**: Ensures models are not biased toward the majority class through advanced resampling techniques.
 

@@ -75,6 +75,29 @@ A modular data processing and feature engineering pipeline for building machine 
   - **Scaling:** StandardScaler normalization  
   - **Resampling:** Applies SMOTE to balance the dataset
 
+### `modeling.py`
+- Trains & Evaluates the model:  
+### Models Implemented
+
+- **Logistic Regression** (baseline, class-weighted)
+- **Random Forest** (optional hyperparameter tuning)
+- **XGBoost** (imbalance-aware with `scale_pos_weight`)
+
+### Evaluation Metrics
+- Accuracy
+- Precision
+- Recall
+- F1-Score
+- ROC-AUC
+- Precision-Recall AUC
+
+### Visual Outputs
+Automatically generated and saved:
+- Confusion Matrix
+- ROC Curve
+- Precision-Recall Curve
+- Model comparison bar chart
+
 ---
 
 ## 🚦 Getting Started
