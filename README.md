@@ -1,12 +1,3 @@
-Below is a **debugged and corrected version** of your Markdown. The issues addressed are:
-
-* Incorrect list nesting (bullets under **Key Findings** and **Insights** were not properly indented).
-* Inconsistent filename casing (`Feature_engineering.py` → `feature_engineering.py`).
-* Minor formatting inconsistencies (extra blank lines, horizontal rule placement).
-* Package name correction (`imblearn` → `imbalanced-learn`, which is the actual pip package).
-* Consistent table alignment markers.
-* Improved structural clarity without changing content or meaning.
-
 ---
 
 ````markdown
@@ -188,8 +179,3 @@ The **Random Forest with SMOTE** trained on the credit card dataset was selected
 
 *Developed as part of the 10 Academy Artificial Intelligence Mastery Challenge (Weeks 5 & 6).*
 
-```
-
----
-
-```
