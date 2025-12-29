@@ -1,6 +1,4 @@
----
 
-````markdown
 ---
 
 # Adey Innovations Inc. – Fraud Detection for E-commerce & Banking
