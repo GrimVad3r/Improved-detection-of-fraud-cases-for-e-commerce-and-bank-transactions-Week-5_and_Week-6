@@ -1,140 +1,108 @@
-# Fraud Detection Data Pipeline
-
-![Python](https://img.shields.io/badge/python-3.8%2B-blue)
-![Scikit-learn](https://img.shields.io/badge/scikit--learn-1.3+-green)
-![Imbalanced-learn](https://img.shields.io/badge/imbalanced--learn-0.12+-orange)
-![License](https://img.shields.io/badge/license-MIT-lightgrey)
-
-A modular data processing and feature engineering pipeline for building machine learning models to detect fraudulent transactions. Supports both e-commerce "Fraud Data" and "Credit Card" datasets, including IP-to-country mapping, time-based feature extraction, and handling class imbalance.
+Based on the provided scripts, here is a comprehensive `README.md` file for your GitHub repository.
 
 ---
 
-## 📌 Table of Contents
+# Fraud Detection System
 
-1. [Features](#-features)
-2. [Project Structure](#-project-structure)
-3. [Script Descriptions](#-script-descriptions)
-4. [Getting Started](#-getting-started)
-5. [Outputs](#-outputs)
-6. [License](#-license)
-
----
+This project is a comprehensive end-to-end machine learning pipeline designed to detect fraudulent transactions. It includes modules for data ingestion, cleaning, geographic mapping, feature engineering, model training, and model interpretability using SHAP values.
 
 ## 🚀 Features
 
-- **Automated Data Cleaning:** Handles missing values, duplicates, and illogical outliers (e.g., negative transaction amounts).  
-- **IP Address Mapping:** Converts numeric and string IP addresses to map users to geographic locations.  
-- **Advanced Feature Engineering:**  
-  - Time-based features (hour of day, day of week, weekend flags)  
-  - Transaction velocity (time lapse between signup and purchase)  
-  - User behavior patterns (device and IP frequency)  
-- **Class Imbalance Management:** Uses SMOTE to balance skewed fraud datasets.  
-- **Robust Preprocessing:** Standard scaling and encoding (Label/One-Hot) ready for model training.  
-
----
+* **Geographic IP Mapping**: Converts numeric IP addresses to country locations to identify high-risk regions.
+* **Advanced Feature Engineering**: Creates time-based features (e.g., `time_since_signup`, `is_weekend`) and user behavior metrics (e.g., `user_txn_count`, `device_sharing`).
+* **Imbalance Handling**: Implements SMOTE and Random Undersampling to handle highly imbalanced fraud datasets.
+* **Multi-Model Pipeline**: Trains and compares Logistic Regression, Random Forest, and XGBoost models.
+* **Model Explainability**: Uses SHAP (SHapeley Additive exPlanations) to provide business-level insights into why specific transactions were flagged.
 
 ## 📂 Project Structure
 
-```
+```text
 ├── data/
-│   ├── raw/                # Original datasets (Fraud_Data.csv, IpAddress_to_Country.csv)
-│   └── processed/          # Outputs from the scripts
-├── src/
-│   ├── data_loading.py         # Initial ingestion and EDA
-│   ├── data_cleaning.py        # Handling nulls and duplicates
-│   ├── ip_to_country.py        # Geolocation mapping logic
-│   ├── Feature_engineering.py  # Creation of predictive features
-│   └── data_processing.py      # Scaling, encoding, and resampling
-└── README.md
+│   ├── raw/                 # Original datasets
+│   └── processed/           # Cleaned and engineered data
+├── figures/                 # Generated performance plots (ROC, PR curves)
+├── models/                  # Saved .pkl and .csv metric files
+├── Scripts/
+│   ├── data_loading.py          # Data ingestion and initial EDA
+│   ├── data_cleaning.py         # Handling missing values and outliers
+│   ├── ip_to_country.py         # IP address to country mapping logic
+│   ├── Feature_engineering.py   # Creation of derived fraud indicators
+│   ├── data_processing.py       # Scaling, encoding, and SMOTE resampling
+│   ├── modeling.py              # Model training, tuning, and evaluation
+│   └── model_explanations.py    # SHAP analysis and feature importance
+
 ```
 
----
+## 🛠️ Installation
 
-## 🛠️ Script Descriptions
-
-### `data_loading.py`
-- Loads CSV files and provides an overview of data: shapes, types, and fraud class distribution.
-
-### `data_cleaning.py`
-- Cleans data rigorously:  
-  - Fraud Data: Drops rows missing critical IDs, fills categorical gaps with `"Unknown"`, imputes age with median.  
-  - Credit Card Data: Removes duplicates and filters out negative amounts/time values.
-
-### `ip_to_country.py`
-- Maps transaction IP addresses to countries efficiently using numeric IP ranges.
-
-### `Feature_engineering.py`
-- Creates informative features:  
-  - **Time Features:** `hour_of_day`, `day_of_week`, `is_weekend`  
-  - **Velocity Features:** `time_diff` (seconds between signup and purchase)  
-  - **Behavioral Features:** Counts of shared `device_id` or `ip_address`  
-
-### `data_processing.py`
-- Prepares data for model training:  
-  - **Encoding:** Converts categorical strings to numeric  
-  - **Scaling:** StandardScaler normalization  
-  - **Resampling:** Applies SMOTE to balance the dataset
-
-### `modeling.py`
-- Trains & Evaluates the model:  
-### Models Implemented
-
-- **Logistic Regression** (baseline, class-weighted)
-- **Random Forest** (optional hyperparameter tuning)
-- **XGBoost** (imbalance-aware with `scale_pos_weight`)
-
-### Evaluation Metrics
-- Accuracy
-- Precision
-- Recall
-- F1-Score
-- ROC-AUC
-- Precision-Recall AUC
-
-### Visual Outputs
-Automatically generated and saved:
-- Confusion Matrix
-- ROC Curve
-- Precision-Recall Curve
-- Model comparison bar chart
-
----
-
-## 🚦 Getting Started
-
-### Prerequisites
-- Python 3.8+  
-- Pandas, Numpy  
-- Scikit-learn  
-- Imbalanced-learn (`imblearn`)  
-- Matplotlib, Seaborn  
-
-### Usage
-
-1. Place your raw data in `data/raw/`
-2. Run cleaning and mapping scripts:
+Ensure you have Python 3.8+ installed. You can install the required dependencies using:
 
 ```bash
-python src/data_cleaning.py
-python src/ip_to_country.py
+pip install pandas numpy matplotlib seaborn scikit-learn xgboost imbalanced-learn shap joblib
+
 ```
 
-3. Generate features and prepare data for ML:
+## ⚙️ Usage Pipeline
 
-```bash
-python src/Feature_engineering.py
-python src/data_processing.py
+### 1. Data Preparation
+
+Start by loading and cleaning the raw datasets. This handles duplicates and removes invalid entries (e.g., negative purchase values).
+
+```python
+from data_cleaning import clean_fraud_data
+df_clean = clean_fraud_data(raw_df)
+
 ```
 
----
+### 2. Feature Engineering & Mapping
 
-## 📊 Outputs
+Map IP addresses to countries and generate behavioral features.
 
-* Processed `.csv` files and `.npy` (NumPy) arrays are saved in `data/processed/`
-* Directly usable in Scikit-learn, TensorFlow, or PyTorch models
+```python
+from ip_to_country import ip_range_to_country
+from Feature_engineering import engineer_all_features
 
----
+# Map IPs to country
+df_with_country = ip_range_to_country(df['ip_address'], ip_lookup_df)
+# Generate time and velocity features
+df_final = engineer_all_features(df_with_country)
 
-## ⚖️ License
+```
 
-This project is licensed under the **MIT License**. See [LICENSE](LICENSE) for details.
+### 3. Model Training
+
+Train multiple classifiers and evaluate them using F1-Score, Precision-Recall AUC, and ROC-AUC.
+
+```python
+from modeling import train_random_forest, evaluate_model
+rf_model = train_random_forest(X_train, y_train, perform_tuning=True)
+metrics, y_pred, y_prob = evaluate_model(rf_model, X_test, y_test, model_name='Random Forest')
+
+```
+
+### 4. Interpretability
+
+Analyze the "why" behind the model's decisions using SHAP summary and force plots.
+
+```python
+from model_explanations import FraudModelSHAPAnalyzer
+analyzer = FraudModelSHAPAnalyzer(model, X_train, X_test, y_test, "FraudModel", feature_names)
+analyzer.compute_shap_values()
+analyzer.generate_summary_plot()
+
+```
+
+## 📊 Evaluation Metrics
+
+The system focuses on metrics critical for imbalanced fraud data:
+
+* **Precision-Recall AUC**: To measure the trade-off between false alarms and caught fraud.
+* **F1-Score**: To balance precision and recall.
+* **Confusion Matrix**: Saved automatically to the `figures/` directory.
+
+## 📝 Requirements
+
+* **scikit-learn**: For core modeling and preprocessing.
+* **imbalanced-learn**: For SMOTE implementation.
+* **SHAP**: For model explainability.
+* **XGBoost**: For high-performance gradient boosting.
